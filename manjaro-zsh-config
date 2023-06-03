@@ -22,8 +22,8 @@ zstyle ':completion:*' cache-path ~/.zsh/cache
 HISTFILE=~/.zhistory
 HISTSIZE=10000
 SAVEHIST=10000
-#export EDITOR=/usr/bin/nano
-#export VISUAL=/usr/bin/nano
+export EDITOR=/usr/bin/vim
+export VISUAL=/usr/bin/vim
 WORDCHARS=${WORDCHARS//\/[&.;]}                                 # Don't consider certain characters part of the word
 
 
@@ -64,7 +64,15 @@ alias gitgud='git reset --hard'
 alias gitnot'sudo git reset --hard HEAD@{1}'
 
 alias zshrc='sudo vim /usr/share/zsh/manjaro-zsh-config'
-alias sourcezshrc='source /usr/share/zsh/manjaro-zsh-config'
+alias sourcezshrc='cp /usr/share/zsh/manjaro-zsh-config ~/dotfiles/ && source /usr/share/zsh/manjaro-zsh-config'
+
+alias kittyconf="vim ~/.config/kitty/kitty.conf"
+
+# Change history file
+# https://stackoverflow.com/questions/70787524/how-can-i-point-the-history-command-to-an-alternate-file
+#alias history="cat ~/.zhistory"
+#history -c && history -r ~/.zhistory
+history -cr ~/.zhistory && history -r $HISTFILE
 
 # Theming section  
 autoload -U compinit colors zcalc
@@ -83,6 +91,8 @@ export LESS=-R
 
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
 
 ## Plugins section: Enable fish style features
 # Use syntax highlighting
@@ -203,5 +213,12 @@ add-zsh-hook precmd mzc_termsupport_precmd
 add-zsh-hook preexec mzc_termsupport_preexec
 
 # File and Dir colors for ls and other outputs
-export LS_OPTIONS='--color=auto'
-eval "$(dircolors -b)"
+# export LS_OPTIONS='--color=auto'
+# eval "$(dircolors -b)"
+# https://github.com/ogham/exa
+alias ls="exa"
+
+# PyEnv to manage multiple python versions
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
