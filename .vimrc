@@ -14,8 +14,7 @@ syntax on
 " For plugins to load correctly
 filetype plugin indent on
 
-" TODO: Pick a leader key - not sure what this is, / often used
-let mapleader = ","
+let mapleader = "\\"
 
 " Security
 set modelines=0
@@ -36,11 +35,11 @@ set encoding=utf-8
 
 " Whitespace
 set wrap
-set textwidth=150
+set textwidth=250
 set formatoptions=tcqrn1
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
 set expandtab
 set noshiftround
 
@@ -94,6 +93,9 @@ set listchars=tab:▸\ ,eol:¬
 " Or use your leader key + l to toggle on/off
 map <leader>l :set list!<CR> " Toggle tabs and EOL
 
+" paste https://stackoverflow.com/a/2514520/12555857
+set pastetoggle=<leader>p
+
 " Color scheme (terminal)
 " set t_Co=256
 " set background=dark
@@ -124,7 +126,7 @@ colorscheme jellybeans
 "   Ps = 5  -> blinking bar (xterm).
 "   Ps = 6  -> steady bar (xterm).
 let &t_SI = "\e[6 q"
-let &t_EI = "\e[2 q"
+let &t_EI = "\e[5 q"
 
 " LIGHTLINE GIT
 
