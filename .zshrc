@@ -275,7 +275,7 @@ alias gitnotgud='sudo git reset --hard HEAD@{1}'
 
 # zsh
 alias zshrc='vim ~/.zshrc'
-alias sourcezsh='source ~/.zshrc'
+alias sourcezshrc='source ~/.zshrc'
 
 # vim
 alias vimrc='vim ~/.vimrc'
@@ -300,7 +300,7 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 # bat
 # https://github.com/sharkdp/bat
 export BATDIFF_USE_DELTA=true
-alias cat='bat --paging=never'
+alias cat='bat'
 
 batdiff() {
     git diff --name-only --relative --diff-filter=d | xargs bat --diff
@@ -314,7 +314,10 @@ help() {
 
 # exa
 # https://github.com/ogham/exa
-alias ls="exa"
+alias ls="exa --icons"
+alias lsl="exa --icons --long --git -F --oneline --time-style=long-iso --group-directories-first"
+alias lsal="exa --icons --all --long --git -F --time-style=long-iso --group-directories-first"
+alias tree="exa --tree --icons"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/rahkochar/manualinstall/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/rahkochar/manualinstall/google-cloud-sdk/path.zsh.inc'; fi
