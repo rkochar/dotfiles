@@ -25,8 +25,8 @@ zstyle ':completion:*' cache-path ~/.zsh/cache
 HISTFILE=~/.zhistory
 HISTSIZE=10000
 SAVEHIST=10000
-#export EDITOR=/usr/bin/nano
-#export VISUAL=/usr/bin/nano
+export EDITOR=/usr/bin/vim
+export VISUAL=/usr/bin/vim
 WORDCHARS=${WORDCHARS//\/[&.;]}                                 # Don't consider certain characters part of the word
 
 
@@ -68,7 +68,8 @@ alias sourcezshrc='source /usr/share/zsh/manjaro-zsh-config && cp /usr/share/zsh
 
 # exa
 alias ls='exa --icons'
-alias lsal='exa --long --icons --header --git -F --all'
+alias lsl='exa --long --icons --header --git -F --all'
+alias lsal='exa --all --long --icons --header --git -F --all'
 alias tree='exa -T --icons'
 
 # bat https://github.com/sharkdp/bat
