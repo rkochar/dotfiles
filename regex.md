@@ -10,21 +10,32 @@ base64 encode `echo -n "" | base64` (or not)
 
 # vim
 `@:` repeat command
+
 `.`  repeat action
 
+
 `+`   start of next line
+
 `-`   end of next line
+
 `)`   next .
 
+
 `~`   flip case of character 
+
 `C-a` add 1
+
 `C-x` subtract 1
+
 
 `#` search current word (like `?`)
 
+
 `:1,3 mo 5` Move lines 1 to 3 to after 5
 
+
 `ciw` cut current word and move to insert
+
 `C-R"` paste " buffer (in insert mode)
 
 # pandas
