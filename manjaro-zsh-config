@@ -1,3 +1,5 @@
+export GPG_TTY=$(tty)
+
 ## Options section
 setopt correct                                                  # Auto correct mistakes
 setopt extendedglob                                             # Extended globbing. Allows using regular expressions with *
@@ -67,6 +69,8 @@ alias zshrc='sudo vim /usr/share/zsh/manjaro-zsh-config'
 alias sourcezshrc='cp /usr/share/zsh/manjaro-zsh-config ~/dotfiles/ && source /usr/share/zsh/manjaro-zsh-config'
 
 alias kittyconf="vim ~/.config/kitty/kitty.conf"
+
+alias pinentry-gtk-2="pinentry"
 
 # Change history file
 # https://stackoverflow.com/questions/70787524/how-can-i-point-the-history-command-to-an-alternate-file
@@ -212,13 +216,52 @@ autoload -U add-zsh-hook
 add-zsh-hook precmd mzc_termsupport_precmd
 add-zsh-hook preexec mzc_termsupport_preexec
 
+
+# Color man pages
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
+# bat
+# https://github.com/sharkdp/bat
+export BATDIFF_USE_DELTA=true
+alias cat='bat'
+
+batdiff() {
+    git diff --name-only --relative --diff-filter=d | xargs bat --diff
+}
+
+alias bathelp='bat --plain --language=help'
+help() {
+    "$@" --help 2>&1 | bathelp
+}
+
 # File and Dir colors for ls and other outputs
 # export LS_OPTIONS='--color=auto'
 # eval "$(dircolors -b)"
 # https://github.com/ogham/exa
-alias ls="exa"
+alias ls="exa --icons"
+alias lsl="exa --icons --long --git -F --oneline --time-style=long-iso --group-directories-first"
+alias lsal="exa --icons --all --long --git -F --time-style=long-iso --group-directories-first"
+alias tree="exa --tree --icons"
 
 # PyEnv to manage multiple python versions
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
+# fz -d will run fzf in a directory
+fz() {
+    ALL_ARGS=("$@")
+    FIRST_ARG="$1"
+    SECOND_ARG="$2"
+    REST_ARGS=("${ALL_ARGS[@]:2}")
+
+    if [[ $FIRST_ARG == "-d" ]]; then
+        cd $SECOND_ARG && fzf $REST_ARGS
+        cd - > /dev/null
+    else
+        fzf $ALL_ARGS
+    fi
+}
+
+# Lower brightness
+xrandr --output DP-0 --brightness 0.6
