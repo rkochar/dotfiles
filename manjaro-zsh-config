@@ -70,8 +70,6 @@ alias sourcezshrc='cp /usr/share/zsh/manjaro-zsh-config ~/dotfiles/ && source /u
 
 alias kittyconf="vim ~/.config/kitty/kitty.conf"
 
-alias pinentry-gtk-2="pinentry"
-
 # Change history file
 # https://stackoverflow.com/questions/70787524/how-can-i-point-the-history-command-to-an-alternate-file
 #alias history="cat ~/.zhistory"
