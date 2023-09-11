@@ -3,11 +3,15 @@
 | Tool | CMD | Action |
 |-----|---|---|
 |docker| docker image rmi $(docker image ls \| tail -n+2 | awk '$1 ~ "ghcr" {print $3}') | cleanup images |
+| kubectl | kubectl get service -o=custom-columns=NAME:metadata.name,NAMESPACE:metadata.namespace | Get n,ns of svc |
 |bash| unique file extensions `find . -type f | perl -ne 'print $1 if m/\.([^.\/]+)$/' | sort -u`| unique file extensions in a directory |
 |docker|docker search --filter is-official=true busybox | search officual busybox images |
 |grep| grep -x | Keep these|
 |grep| grep -v | Remove these|
 |kafka | kafkacat -b <kafka-service>:<port> -L | debug kafka connection |
+| exa | ls -s time | sort newest at bottom |
+| exa | ls -s newest --reverse | sort newest at top |
+| awk | awk 'BEGIN{FS=","}{sum+=$2}END{print sum}' <file> | sum second column of csv ", " |
 
 base64 encode `echo -n "" | base64` (or not)
 
@@ -41,7 +45,8 @@ base64 encode `echo -n "" | base64` (or not)
 | CMD | Action |
 |-----| --- |
 |`ciw` | cut current word and move to insert|
-|`C-R"`|  paste " buffer (in insert mode)|
+|`C-R"`| paste " buffer (in insert mode)|
+|`"0p` | paste yanked buffer |
 
 # bash math
 | CMD | Output | Comments |
