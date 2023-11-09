@@ -12,3 +12,4 @@ https://markentier.tech/posts/2021/02/github-with-multiple-profiles-gpg-ssh-keys
 | [ngrok](https://ngrok.com/)| |
 | [glow](https://github,com/charmbracelet/glow) | cli markdown |
 | [time warrior](https://github.com/GothenburgBitFactory/timewarrior) | cli time tracker |
+| [hub](https://github.com/mislav/hub) | git cli |

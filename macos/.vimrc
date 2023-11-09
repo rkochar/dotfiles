@@ -43,6 +43,10 @@ set softtabstop=4
 set expandtab
 set noshiftround
 
+" https://stackoverflow.com/a/7912621/12555857
+set splitright
+set splitbelow
+
 " Cursor motion
 set cursorline " Highlight line
 set scrolloff=3
@@ -123,9 +127,60 @@ nmap <C-L> :set invrelativenumber<CR>
 " Paste at cursor and move cursor to end of pasted text https://unix.stackexchange.com/a/5061/570671
 noremap p gP
 
+" Nerdtree
+" https://github.com/preservim/nerdtree
+nnoremap <leader>n :NERDTreeFocus<CR>
+" Exit Vim if NERDTree is the only window remaining in the only tab.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+" Close the tab if NERDTree is the only window remaining in it.
+autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+" If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
+autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 | let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+" Show hidden files
+let NERDTreeShowHidden=1
+
+" https://github.com/Xuyuanp/nerdtree-git-plugin
+let g:NERDTreeGitStatusUseNerdFonts = 0 " default: 0 (false) " TODO: nerdfont not installed (correctly)
+let g:NERDTreeGitStatusShowClean = 1 " default: 0
+let g:NERDTreeGitStatusConcealBrackets = 1 " default: 0
+
+" https://github.com/tiagofumo/vim-nerdtree-syntax-highlight
+let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
+let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
+let g:NERDTreeLimitedSyntax = 1
+
+" https://github.com/PhilRunninger/nerdtree-visual-selection#configuration
+let g:nerdtree_vis_jumpmark = 'p' " default: 'n'
+
+" Fugitive
+" Clean buffer on closing vim
+autocmd BufReadPost fugitive://* set bufhidden=delete
+
+" Add git branch to statusline
+set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+
+" Maps Tab to go back in Gedit
+autocmd User fugitive 
+  \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
+  \   nnoremap <buffer> <Tab> :edit %:h<CR> |
+  \ endif
+
+
+" CtrlP
+" Search includes hidden files
+let g:ctrlp_show_hidden = 1
+let g:ctrlp_map = '<C-p>'
+let g:ctrlp_cmd = 'CtrlPRoot'
+
+" https://github.com/kien/ctrlp.vim/issues/650#issuecomment-101752106
+"let g:ctrlp_prompt_mappings = { 
+"    \ 'AcceptSelection("h")': ['<c-h>'],
+"    \ 'PrtCurLeft(): ['<c-x>'],
+"    \  }
+
 " Color scheme (terminal)
 " set t_Co=256
-" set background=dark
+set background=dark
 " let g:solarized_termcolors=256
 let g:solarized_termtrans=1
 " put https://raw.github.com/altercation/vim-colors-solarized/master/colors/solarized.vim
@@ -135,10 +190,7 @@ let g:solarized_termtrans=1
 " Vim color from https://github.com/branwright1/salvation-vim
 set termguicolors
 " colorscheme salvation
-" colorscheme palenight
-" colorscheme papaya
-colorscheme jellybeans
-
+colorscheme PaperColor
 
 " CURSOR
 
