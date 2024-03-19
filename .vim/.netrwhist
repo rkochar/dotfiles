@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =2
+let g:netrw_dirhist_2='/Users/rahkochar/.vim/colors'
+let g:netrw_dirhist_1='/Users/rahkochar/Projects/mu2sls/tests/source_specs/hotel-reservation'
+let g:netrw_dirhist_0='/Users/rahkochar/Projects/go/greetings/greetings_test.go'
+let g:netrw_dirhist_9='/Users/rahkochar/Projects/wsdm/k8s/microservices'
+let g:netrw_dirhist_8='/Users/rahkochar/Projects/converge/converge-tf-demo-platform/uat'
+let g:netrw_dirhist_7='/Users/rahkochar/Projects/converge/converge-tf-demo-platform'
+let g:netrw_dirhist_6='/Users/rahkochar/Projects/converge/converge-tf-demo-platform/policies'
+let g:netrw_dirhist_5='/Users/rahkochar/Projects/converge/tf-module-aws-cloudfront-waf'
+let g:netrw_dirhist_4='/Users/rahkochar/Projects/converge/base-azure-pipelines-agent/buildah'
+let g:netrw_dirhist_3='/Users/rahkochar/Projects/converge/converge-app-cicd-scripts'

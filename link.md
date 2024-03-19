@@ -13,3 +13,13 @@ https://markentier.tech/posts/2021/02/github-with-multiple-profiles-gpg-ssh-keys
 | [glow](https://github,com/charmbracelet/glow) | cli markdown |
 | [time warrior](https://github.com/GothenburgBitFactory/timewarrior) | cli time tracker |
 | [hub](https://github.com/mislav/hub) | git cli |
+| [ddgr](https://github.com/jarun/ddgr) | |
+| [ddgr bangs](https://duckduckgo.com/bangs) | |
+| [gnirehtet](https://github.com/Genymobile/gnirehtet) | Phone use internet of host machine |
+| [srccpy](https://github.com/Genymobile/scrcpy) | Control android from machine |
+| [kitten ssh](https://sw.kovidgoyal.net/kitty/kittens/ssh/) | Kitten SSH |
+| [clonezilla](https://clonezilla.org/) | disk imaging/cloning, bare metal backup and recovery |
+| [nixos](https://nixos.org/) | Reproducible builds and downloads |
+| [Bazel](https://bazel.build/) | Build and test multi-language multi-platform projects |
+| [pkl](https://github.com/apple/pkl) | Apple's configuratio language, Java, Koitlin, Swift and go |
+| [termusic]() | Rust music player , `youtube-dl -x --audio-format m4a 'https://www.youtube.com/watch?v=22bLNq6iCjU'`|

@@ -11,8 +11,14 @@
 | exa | ls -s time | sort newest at bottom |
 | exa | ls -s newest --reverse | sort newest at top |
 | awk | awk 'BEGIN{FS=","}{sum+=$2}END{print sum}' <file> | sum second column of csv ", " |
+| awk | tail -n+2 | awk '{print $2}' | skip first line, get 2nd column |
 | vim | :verbose set timeout? timeoutlen? ttimeout? ttimeoutlen? | |
 base64 encode `echo -n "" | base64` (or not)
+| bash | ${dir##*/} | Remove largest amount matching `*/` |
+| bash | string=${string%,*} | remove everything , onwards | 
+| rg | rg -iF "<exact-match> -g "**/<regex>" | |
+| gendates | `function gendates { for dd in $(seq -w $1 $2) ; do date -d $dd +%Y%m%d 2>/dev/null ; done  ; }` log files to check | |
+| du -d 1 -h | folder size | |
 
 # vim
 TODO: [vimgrep](http://vimcasts.org/episodes/search-multiple-files-with-vimgrep/), [comment](https://github.com/tomtom/tcomment_vim), [yoink](https://github.com/svermeulen/vim-yoink), [subversive](https://github.com/svermeulen/vim-subversive), [cutlass](https://github.com/svermeulen/vim-cutlass)
@@ -23,6 +29,8 @@ TODO: [vimgrep](http://vimcasts.org/episodes/search-multiple-files-with-vimgrep/
 | `q:` | command history |
 | `@:`| repeat command|
 | `.` | repeat action|
+| `;` | repeat f, t forward. `,` repeats backwards |
+| `C-z` | Suspend vim and return to terminal. `fg` | 
 | `C-d` | Auto-complete command on `:` |
 | `C-g` | Relative file path |
 | `1C-g` | Absolute file path |
@@ -34,10 +42,13 @@ TODO: [vimgrep](http://vimcasts.org/episodes/search-multiple-files-with-vimgrep/
 | `+` |  start of next line|
 | `-` |  end of next line|
 | `)` |  next .|
+| `b/e` | start/end of word |
+| `w` | next word |
 | `50%` | Move to middle of file |
-| `2fc` | Forward to 2nd `c` |
+| `6fc` | Forward to 6tj `c` |
 | `6w` | Forward 6 words |
 | `6b` | Backward 6 words |
+| `6tc` | Place cursor the left of 6th c from cursor. `T` backwards |
 | `zz` | Center line |
 | `z.` | Center line and move cursor to first char of line |
 | `zt` | Move line to top |
@@ -55,12 +66,21 @@ TODO: [vimgrep](http://vimcasts.org/episodes/search-multiple-files-with-vimgrep/
 |`C-a` | add 1|
 |`C-x` | subtract 1|
 
+Most delete sequences overwrite `""`. Paste with `"0p`
 | CMD | Action |
 |-----| --- |
 | `dw` | Delete word till next delimiter |
 | `dW` | Delete till next whitespace |
 | `db` | Delete word till previous delimiter |
 | `dB` | Delete till previous whitespace |
+| `dd` | Delete whole line |
+| `S` | Delete whole line and insert mode |
+| `D` | Delete till end of line |
+| `D|` | Delete till start of line |
+| `dG` | Delete till end of file |
+| `d` | Delete till start of file |
+| `ci/a<enclosure>` | Delete everything inside/including enclosure and go to insert |
+| `vi/a<enclosure>` | Select everything inside/including enclosure |
 
 | CMD | Action |
 |-----| --- |
@@ -83,10 +103,13 @@ TODO: [vimgrep](http://vimcasts.org/episodes/search-multiple-files-with-vimgrep/
 
 | CMD | Action |
 |-----| --- |
+| `yiw` | copy current word |
 | `ciw` | cut current word and move to insert|
-| `C-R"` | paste " buffer (in insert mode)|
+| `C-r"` | paste " buffer (in insert mode)|
 | `"0p` | paste yanked buffer |
+| `"*y` | Copy to clipboard, `"*p` |
 | `:%y+` | Copy all lines |
+| `vggy` | Copy till top |
 
 | CMD | Action |
 |-----| --- |
@@ -97,7 +120,8 @@ TODO: [vimgrep](http://vimcasts.org/episodes/search-multiple-files-with-vimgrep/
 | `:bw` | buffer wipeout |
 | `:b n` | Go to buffer |
 | `:b <Tab>` | Use tab to cycle through buffers |
-| `:e#` | Previous buffer |
+| `:e#` | Previous buffer, `:b#` |
+| `tabe#` | Open last buffer in new tab |
 | `:e#n` | Go back n buffers |
 
 # Nerdtree-V
@@ -108,6 +132,15 @@ TODO: [vimgrep](http://vimcasts.org/episodes/search-multiple-files-with-vimgrep/
 | `m` | mv |
 | `c` | cp |
 | `d` | rm |
+
+# Unimpaired
+| CMD | Action |
+|-----|--------|
+| `[/]<space>` | Add newlines before/after cursor line |
+| `[/]e` | Swap cursor line up/down |
+| `[/]f` | Next/previous file in directory |
+| `[/]n` | Next/previous SCM markers |
+| `>/=/<p` | Paste after line, increasing/reindenting/decreasing indent. `P` Paste up |
 
 # Fugitive
 | CMD | Action |
@@ -123,28 +156,54 @@ TODO: [vimgrep](http://vimcasts.org/episodes/search-multiple-files-with-vimgrep/
 # Fugitive diff
 | CMD | Action |
 |-----| --- |
-| `:Gdiff` | 3 way merge |
+| `:Gvdiffsplit!` | 3 way merge |
 | `:diffget //2` | keep target (left) |
 | `:diffget //3` | keep merge (right) |
 | `:diffupdate` | sync diff highlight (use |) |
+| `:Gwq` | Write to git and exit diff |
 | `[c` | go to previous conflict |
 | `]c` | go to next conflict |
-| `<C-W><C-O>` | `:only` |
-| `:only` | Close all windows except current (exit diff) |
-| `dp` | Select other buffer, `:Gwrite` exits |
+| `<C-W><C-O>` | `:only` Close all windows except current (exit diff) |
+| `dp` | Put buffer and diffupdate, `:Gwrite` exits diff and stages file |
 | `:Gwrite!` | selects buffer |
+| `do/p` | `:diffget/put` in 2 way split |
 
-# Fugitive diff
+# Fugitive edit
 | CMD | Action |
 |-----| --- |
 | `:Gedit <branch>:<file>` | Open file in ReadOnly buffer |
 | `:Gedit <sha>` | Explore git history |
 | `a` | show sha |
-| `:edit %:h` | go back |
+| `:edit %:h` | go back, `e#` |
+| <C-^> | exit gedit |
 | `C` | reutrn to commit object |
+| `:Gsplit <branch>:%` | Open same file in <branch> |
 | `:Gedit` | go back to working tree |
 | `:Gbrowse` | open in GH |
 | `:'<,'>Gbrowse` | Highlight lines |
+| `d3o` | https://github.com/tpope/vim-fugitive/issues/1313#issuecomment-523632340 |
+
+# GitGutter
+| CMD | Action |
+|-----|--------|
+| `:GitGutterLineHighlightsToggle` | Show inline diff |
+| `:GitGutterBufferToggle` | Disable in buffer |
+| `]/[c` | Jump to next/previous hunk |
+| `<Leader>hs/u` | Stage/Unstage hunk |
+| `x,yGitGutterStageHunk` | stage x,y or visually select lines to stage part of a hunk |
+| `<Leader>hp` | Preview hunk |
+| TODO: `command! Gqf GitGutterQuickFix | copen` | Load hunks into quickfix |
+| `:GitGutterAll` | Update gutter |
+| `:GitGutterFold` | Fold unchanged lines | 
+
+# QuickFix
+| CMD | Action |
+|-----|--------|
+| `:copen` | Show quickfix list |
+| `:cnext` | Next fix |
+| `:cprevious` | Previous fix |
+| `:next` | |
+| `:bprevious` | |
 
 # CtrlP
 | CMD | Action |
@@ -158,11 +217,23 @@ TODO: [vimgrep](http://vimcasts.org/episodes/search-multiple-files-with-vimgrep/
 | <C-d> | Toggle filepath and name |
 | <C-r> | Toggle regex |
 | <C-p> | Search history. `n` is forward |
+| `:CtrlPClearCache` | Rescan fs or F5 |
+
+# Surround
+Opening enclosure adds whitespace
+| CMD | Action |
+|-----|--------|
+| `cs<1><2>` | Switch enclosure 1 with 2 |
+| `cst<2>` | When enclosure 1 is a tag |
+| `ds<1>` | Remove enclosure entirely |
+| `ysiw<1>` | Enclose word |
+| `yss<1>` | Wrap line |
+| `v/VS` | Visual mode enclose |
 
 # bash math
 | CMD | Output | Comments |
 |-----|--------| -------- |
-| `echo $((2 + 3))` | 5 | |
+| `echo $(2 + 3)` | 5 | |
 | `expr 2 + 3` | 5 | |
 | `awk 'BEGIN { x = 2; y = 3; print "x + y = "(x+y) }'` | x + y = 5 | awk substitution, float |
 | `echo "2+3" \| bc` | 5 | **B**asic **C**alculator, -l for float |
