@@ -1,0 +1,32 @@
+Host github.com
+    Hostname ssh.github.com
+    AddKeysToAgent yes
+    UseKeychain yes
+    IdentityFile ~/.ssh/id_ed25519
+    Port 443
+
+
+Host ssh.dev.azure.com
+    Hostname ssh.dev.azure.com
+    UseKeychain yes
+    HostkeyAlgorithms +ssh-rsa
+    PubkeyAcceptedAlgorithms +ssh-rsa
+    IdentityFile ~/.ssh/id_rsa_azuredevops
+
+
+Host staging
+    Hostname s-edaa648bb579401aa.server.transfer.eu-west-1.amazonaws.com
+    User 381492134889
+    UseKeychain yes
+    IdentityFile ~/.ssh/id_rsa_sftp_staging
+    Port 22
+
+# https://markentier.tech/posts/2021/02/github-with-multiple-profiles-gpg-ssh-keys/
+
+### general
+
+Host *
+  AddKeysToAgent yes
+  IdentitiesOnly yes
+  PreferredAuthentications publickey
+  Compression yes

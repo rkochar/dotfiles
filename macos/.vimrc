@@ -10,6 +10,7 @@ so ~/.vim/plugins.vim
 
 " Turn on syntax highlighting
 syntax on
+set re=0 " https://github.com/prabirshrestha/vim-lsp/issues/786#issuecomment-1333947331
 
 " For plugins to load correctly
 filetype plugin indent on
@@ -35,7 +36,7 @@ set encoding=utf-8
 
 " Whitespace
 set wrap
-set textwidth=250
+set textwidth=300
 set formatoptions=tcqrn1
 set tabstop=4
 set shiftwidth=4
@@ -85,23 +86,6 @@ map <leader><space> :let @/=''<cr> " clear search
 inoremap <F1> <ESC>:set invfullscreen<CR>a
 nnoremap <F1> :set invfullscreen<CR>
 vnoremap <F1> :set invfullscreen<CR>
-
-" Closing bracket https://stackoverflow.com/a/34992101/12555857
-"inoremap " ""<left>
-"inoremap "" ""<left>
-"inoremap ' ''<left>
-"inoremap '' ''<left>
-"inoremap ( ()<left>
-"inoremap () ()<left>
-"inoremap [ []<left>
-"inoremap [] []<left>
-"inoremap { {}<left>
-"inoremap {} {}<left>
-"inoremap {<CR> {<CR>}<ESC>O
-"inoremap {<CR>} {<CR>}<ESC>O
-"inoremap {;<CR> {<CR>};<ESC>O
-
-" Textmate holdouts
 
 " Formatting
 map <leader>q gqip
@@ -165,6 +149,9 @@ autocmd User fugitive
   \   nnoremap <buffer> <Tab> :edit %:h<CR> |
   \ endif
 
+" https://stackoverflow.com/a/7313949/12555857
+" git config --global mergetool.fugitive.cmd 'vim -f -c "Gvdiffsplit!" "$MERGED"'
+" git config --global merge.tool fugitive
 
 " CtrlP
 " Search includes hidden files
@@ -178,17 +165,35 @@ let g:ctrlp_cmd = 'CtrlPRoot'
 "    \ 'PrtCurLeft(): ['<c-x>'],
 "    \  }
 
+" calendar https://github.com/itchyny/calendar.vim/blob/master/doc/calendar.txt
+let g:calendar_date_endian = "little"
+let g:calendar_week_number = 1
+let g:calendar_clock_12hour = 0
+let g:calendar_cyclic_view = 1
+let g:calendar_first_day = "monday"
+let g:calendar_google_calendar = 1
+let g:calendar_google_task = 0
+" https://github.com/itchyny/calendar.vim#important-notice
+source ~/.cache/calendar.vim/credentials.vim
+" marks: https://github.com/itchyny/calendar.vim/blob/master/doc/calendar.txt#L767
+
+let g:python_highlight_all = 1
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""
+
 " Color scheme (terminal)
 " set t_Co=256
 set background=dark
+set termguicolors
+
 " let g:solarized_termcolors=256
-let g:solarized_termtrans=1
+" let g:solarized_termtrans=1
 " put https://raw.github.com/altercation/vim-colors-solarized/master/colors/solarized.vim
 " in ~/.vim/colors/ and uncomment:
 " colorscheme solarized
 
 " Vim color from https://github.com/branwright1/salvation-vim
-set termguicolors
 " colorscheme salvation
 colorscheme PaperColor
 
@@ -211,17 +216,26 @@ let &t_EI = "\e[5 q"
 
 " Lightline
 let g:lightline = {
+  \  'colorscheme': 'powerline',
   \ 'active': {
   \ 'left': [['mode', 'paste'],
-  \    ['gitbranch', 'readonly', 'filename', 'modified']],
+  \    ['gitbranch', 'readonly', 'filename', 'modified'],
+  \    ['gitdelta']],
   \ 'right': [['lineinfo'],
   \    ['percent'],
   \    ['fileformat', 'fileencoding']]
   \ },
   \ 'component_function': {
-  \   'gitbranch': 'FugitiveHead'
+  \   'gitbranch': 'FugitiveStatusline',
+  \   'gitdelta': 'GitStatus'
   \ },
   \ }
-clear
 
-
+function! GitStatus()
+  if !get(g:, 'gitgutter_enabled', 0) || empty(FugitiveHead())
+    return ''
+  endif
+  let [a,m,r] = GitGutterGetHunkSummary()
+  return printf('+%d ~%d -%d', a, m, r)
+endfunction
+set statusline+=%{GitStatus()}

@@ -19,6 +19,7 @@ base64 encode `echo -n "" | base64` (or not)
 | rg | rg -iF "<exact-match> -g "**/<regex>" | |
 | gendates | `function gendates { for dd in $(seq -w $1 $2) ; do date -d $dd +%Y%m%d 2>/dev/null ; done  ; }` log files to check | |
 | du -d 1 -h | folder size | |
+| youtube-dl -x --audio-format m4a --postprocessor-args "-ss 00:00:02.00 -t 00:09:27.00" https://www.youtube.com/watch?v=AETFvQonfV8 | download audio from youtube | |
 
 # vim
 TODO: [vimgrep](http://vimcasts.org/episodes/search-multiple-files-with-vimgrep/), [comment](https://github.com/tomtom/tcomment_vim), [yoink](https://github.com/svermeulen/vim-yoink), [subversive](https://github.com/svermeulen/vim-subversive), [cutlass](https://github.com/svermeulen/vim-cutlass)

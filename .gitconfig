@@ -1,0 +1,57 @@
+[init]
+  defaultBranch = master
+
+[commit]
+  gpgsign = true
+
+[push]
+    default = current
+
+[pull]
+    default = matching
+    ff = only
+
+[mergetool "fugitive"]
+	cmd = vim -f -c \"Gvdiffsplit!\" \"$MERGED\"
+
+[alias]
+    co = checkout
+    cob = checkout -b
+    com = checkout master
+    br = branch
+    bra = branch -a
+
+### bat
+[core]
+    pager = delta
+    editor = vim
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+	side-by-side = true
+	line-numbers = true
+    navigate = true    # use n and N to move between diff sections
+    light = false
+    hyperlinks = true
+    hyperlinks-file-link-format = "file-line://{path}:{line}"
+
+[merge]
+  conflictstyle = diff3
+	tool = fugitive
+
+[diff]
+  colorMoved = default
+
+### ssh and gpg key
+[user]
+	name = rkochar
+    useConfigOnly = true
+	email = rkochar9@gmail.com
+
+#[include]
+#  path = ~/.gitconfig.personal
+
+[includeIf "gitdir:~/Projects/faas-monad/"]
+    path = ~/.gitconfig.personal
