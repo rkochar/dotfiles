@@ -21,8 +21,14 @@ base64 encode `echo -n "" | base64` (or not)
 | du -d 1 -h | folder size | |
 | youtube-dl -x --audio-format m4a --postprocessor-args "-ss 00:00:02.00 -t 00:09:27.00" https://www.youtube.com/watch?v=AETFvQonfV8 | download audio from youtube | |
 
+
+# TODO
+[Space Age seD - batch edit](https://github.com/ms-jpq/sad)
+
+
 # vim
 TODO: [vimgrep](http://vimcasts.org/episodes/search-multiple-files-with-vimgrep/), [comment](https://github.com/tomtom/tcomment_vim), [yoink](https://github.com/svermeulen/vim-yoink), [subversive](https://github.com/svermeulen/vim-subversive), [cutlass](https://github.com/svermeulen/vim-cutlass)
+TODO: [vim-visual-multiline](https://github.com/mg979/vim-visual-multi)
 [vim docs](https://vimdoc.sourceforge.net/htmldoc/help.html), [vim cast](http://vimcasts.org/episodes/page/8/)
 [1](https://www.maketecheasier.com/cheatsheet/vim-keyboard-shortcuts/), [2](https://blog.codepen.io/2014/02/21/vim-key-bindings/)
 | CMD | Action |
