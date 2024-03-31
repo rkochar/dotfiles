@@ -3,6 +3,7 @@
 |-----|---|---|
 |docker| docker image rmi $(docker image ls \| tail -n+2 | awk '$1 ~ "ghcr" {print $3}') | cleanup images |
 | kubectl | kubectl get service -o=custom-columns=NAME:metadata.name,NAMESPACE:metadata.namespace | Get n,ns of svc |
+| kubectl | kubectl get svc --all-namespaces -o go-template='{{range .items}}{{range.spec.ports}}{{if .nodePort}}{{.nodePort}}{{"\n"}}{{end}}{{end}}{{end}}' | Get all port-forward ports |
 |bash| unique file extensions `find . -type f | perl -ne 'print $1 if m/\.([^.\/]+)$/' | sort -u`| unique file extensions in a directory |
 |docker|docker search --filter is-official=true busybox | search officual busybox images |
 |grep| grep -x | Keep these|
@@ -13,7 +14,8 @@
 | awk | awk 'BEGIN{FS=","}{sum+=$2}END{print sum}' <file> | sum second column of csv ", " |
 | awk | tail -n+2 | awk '{print $2}' | skip first line, get 2nd column |
 | vim | :verbose set timeout? timeoutlen? ttimeout? ttimeoutlen? | |
-base64 encode `echo -n "" | base64` (or not)
+| wget | wget -p <path> <url> | Download file to path |
+| base64 encode `echo -n "" | base64` (or not) |
 | bash | ${dir##*/} | Remove largest amount matching `*/` |
 | bash | string=${string%,*} | remove everything , onwards | 
 | rg | rg -iF "<exact-match> -g "**/<regex>" | |
@@ -21,10 +23,8 @@ base64 encode `echo -n "" | base64` (or not)
 | du -d 1 -h | folder size | |
 | youtube-dl -x --audio-format m4a --postprocessor-args "-ss 00:00:02.00 -t 00:09:27.00" https://www.youtube.com/watch?v=AETFvQonfV8 | download audio from youtube | |
 
-
 # TODO
 [Space Age seD - batch edit](https://github.com/ms-jpq/sad)
-
 
 # vim
 TODO: [vimgrep](http://vimcasts.org/episodes/search-multiple-files-with-vimgrep/), [comment](https://github.com/tomtom/tcomment_vim), [yoink](https://github.com/svermeulen/vim-yoink), [subversive](https://github.com/svermeulen/vim-subversive), [cutlass](https://github.com/svermeulen/vim-cutlass)
@@ -107,6 +107,8 @@ Most delete sequences overwrite `""`. Paste with `"0p`
 | `:5,20s/^#//` | Delete `#` (uncomment) |
 | `:%s/apple\|orange\|mango/fruit/g` | replace all 3 with fruit |
 | `:%s/\s\+$//e` | remove trailing whitespace at end all lines |
+|`:1,3 mo 5`| Move lines 1 to 3 to after 5 |
+| `gg=G` | Goto first line, indent till G |
 
 | CMD | Action |
 |-----| --- |

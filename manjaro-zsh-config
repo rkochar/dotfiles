@@ -94,7 +94,7 @@ alias kdf="kubectl delete -f"
 # https://stackoverflow.com/questions/70787524/how-can-i-point-the-history-command-to-an-alternate-file
 #alias history="cat ~/.zhistory"
 #history -c && history -r ~/.zhistory
-history -cr ~/.zhistory && history -r $HISTFILE
+#history -cr ~/.zhistory && history -r $HISTFILE
 
 # Theming section  
 autoload -U compinit colors zcalc
@@ -278,6 +278,3 @@ fz() {
         fzf $ALL_ARGS
     fi
 }
-
-# Lower brightness
-xrandr --output DP-0 --brightness 0.6

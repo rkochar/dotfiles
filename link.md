@@ -23,3 +23,5 @@ https://markentier.tech/posts/2021/02/github-with-multiple-profiles-gpg-ssh-keys
 | [Bazel](https://bazel.build/) | Build and test multi-language multi-platform projects |
 | [pkl](https://github.com/apple/pkl) | Apple's configuratio language, Java, Koitlin, Swift and go |
 | [termusic]() | Rust music player , `youtube-dl -x --audio-format m4a 'https://www.youtube.com/watch?v=22bLNq6iCjU'`|
+| [soft-brightness-plus](https://github.com/jkitching/soft-brightness-plus) | gnome brightness |
+| [prime-indicator](https://extensions.gnome.org/extension/1275/prime-indicator/) | CPU/GPU toolbar |
