@@ -259,10 +259,17 @@ alias lsl="exa --icons --long --git -F --oneline --time-style=long-iso --group-d
 alias lsal="exa --icons --all --long --git -F --time-style=long-iso --group-directories-first"
 alias tree="exa --tree --icons"
 
+# Calendar
+alias cal='cal -m '
+
 # PyEnv to manage multiple python versions
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
+# Powerlevel10k
+#[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+source ~/.p10k.zsh
 
 # fz -d will run fzf in a directory
 fz() {
@@ -278,3 +285,4 @@ fz() {
         fzf $ALL_ARGS
     fi
 }
+

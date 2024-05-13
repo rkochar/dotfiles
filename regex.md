@@ -37,12 +37,18 @@ TODO: [vim-visual-multiline](https://github.com/mg979/vim-visual-multi)
 | `@:`| repeat command|
 | `.` | repeat action|
 | `;` | repeat f, t forward. `,` repeats backwards |
-| `C-z` | Suspend vim and return to terminal. `fg` | 
+| `&` | repeat last `:s`. `g&` remembers flag
+| `C-Z` | Suspend vim and return to terminal. `fg` | 
 | `C-d` | Auto-complete command on `:` |
+| `C-f` | Search history |
 | `C-g` | Relative file path |
 | `1C-g` | Absolute file path |
 | `C-v$A`| append at end of lines |
 | `:1,3 mo 5`| Move lines 1 to 3 to after 5|
+| `:1,3 co 5`| Copy lines 1 to 3 to after 5|
+| `:1,3 d`| Delete lines 1 to 3|
+| `:1,3 m$`| Move lines 1 to 3 to end of file|
+| `:!` | cli |
 
 | CMD | Action |
 |-----| --- |
@@ -56,43 +62,53 @@ TODO: [vim-visual-multiline](https://github.com/mg979/vim-visual-multi)
 | `6w` | Forward 6 words |
 | `6b` | Backward 6 words |
 | `6tc` | Place cursor the left of 6th c from cursor. `T` backwards |
-| `zz` | Center line |
-| `z.` | Center line and move cursor to first char of line |
-| `zt` | Move line to top |
-| `zb` | Move line to bottom |
-| `z-` | Move last line to bottom |
 | `gM` | Middle of line |
 | `gm` | Middle of line width |
 | `gk` | Move up displayed line |
 | `gj` | Move down displayed line |
 | `\``\` | Double \` goes back to last position used on a go |
+| `gg/G` | Top/Bottom of file |
+| `H/L/M` | Top/Middle/Bottom of screen. Prepending causes that action on selection till +-3 lines |
+| `zt/z/b` | Top/middle/bottom of screen |
+| `z.` | Center line and move cursor to first char of line |
+| `z-` | Move last line to bottom |
+| `z<CR>` | Center line |
 
 | CMD | Action |
 |-----| --- |
 |`~` |  flip case of character |
+| `U` | Uppercase in visual. Undo all changes in normal |
 |`C-a` | add 1|
 |`C-x` | subtract 1|
+| `gx` | Open url in browser |
+| `gd/D` | Goto local/global definition. See ctags for stronger gd |
+| `gg=G` | Goto first line, indent till G |
 
 Most delete sequences overwrite `""`. Paste with `"0p`
 | CMD | Action |
 |-----| --- |
+| `d0` | Delete till start of line |
 | `dw` | Delete word till next delimiter |
 | `dW` | Delete till next whitespace |
 | `db` | Delete word till previous delimiter |
 | `dB` | Delete till previous whitespace |
 | `dd` | Delete whole line |
-| `S` | Delete whole line and insert mode |
-| `D` | Delete till end of line |
+| `S` | Delete whole line and insert mode. `cc` |
+| `D` | Delete till end of line. `d$` |
+| `C` | Change till end of line. `c$` |
 | `D|` | Delete till start of line |
 | `dG` | Delete till end of file |
-| `d` | Delete till start of file |
+| `dgg` | Delete till start of file |
 | `ci/a<enclosure>` | Delete everything inside/including enclosure and go to insert |
 | `vi/a<enclosure>` | Select everything inside/including enclosure |
 
 | CMD | Action |
 |-----| --- |
-| `#` | search current word (like `?`, `*`) |
-| `:s/f/r/` | replace first f with r in current line |
+| `//?` | Search forward/backward |
+| `<C-o/i>` | Go back/forward |
+| `*/#` | Next/previous occurance of word under cursor |
+| `R` | Replace mode |
+| `:s/f/r` | replace first f with r in current line |
 | `:s/f/r/g` | replace all f with r in current line |
 | `:s/f/r/gi` | case-insensitive |
 | `:3,10s/f/r/g` | replace in inclusive range 3 to 10 |
@@ -107,8 +123,20 @@ Most delete sequences overwrite `""`. Paste with `"0p`
 | `:5,20s/^#//` | Delete `#` (uncomment) |
 | `:%s/apple\|orange\|mango/fruit/g` | replace all 3 with fruit |
 | `:%s/\s\+$//e` | remove trailing whitespace at end all lines |
-|`:1,3 mo 5`| Move lines 1 to 3 to after 5 |
-| `gg=G` | Goto first line, indent till G |
+
+| CMD | Action |
+|-----| --- |
+| `:r <file>` | Read file into current buffer |
+| `:r !<cmd>` | Read output of command into current buffer (under cursor) |
+| `:r !<cmd> | grep <pattern> | awk '{print $2}' | sort -u` | Read output of command into current buffer |
+| `:tabnew <file>` | Open file in new tab |
+| `:e <file>` | Open file in same buffer |
+| `:e!` | Reload file |
+| `:e#` | Go back to previous file |
+| `:e %:h` | Go back to directory of current file |
+| `:e %:p` | Go back to full path of current file |
+| `:e %:p:h` | Go back to parent directory of current file |
+| `:w <file>` | Write file. Visual mode writes selected lines. |
 
 | CMD | Action |
 |-----| --- |
@@ -119,6 +147,20 @@ Most delete sequences overwrite `""`. Paste with `"0p`
 | `"*y` | Copy to clipboard, `"*p` |
 | `:%y+` | Copy all lines |
 | `vggy` | Copy till top |
+| `yt,` | Copy till `,` |
+| `yi(` | Copy inside `()` |
+
+| CMD | Action |
+|-----| --- |
+| `zj/k` | Next/previous fold |
+| `[/]z` | Move to open/close of fold |
+| `za` | Toggle fold |
+| `zA` | Toggle fold recursively. `O` for all folds at cursor |
+| `zo/c` | Open/Close fold |
+| `zm/r` | Increase/Decrease fold level by one |
+| `zR/M` | Open/Close all folds |
+| `zd/E` | Delete fold/all folds |
+| `zf#j` | Create fold from cursor to # lines down |
 
 | CMD | Action |
 |-----| --- |
@@ -141,6 +183,18 @@ Most delete sequences overwrite `""`. Paste with `"0p`
 | `m` | mv |
 | `c` | cp |
 | `d` | rm |
+Plug 'preservim/nerdtree'
+
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
+Plug 'ryanoasis/vim-devicons'
+
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
+Plug 'PhilRunninger/nerdtree-buffer-ops'
+
+Plug 'PhilRunninger/nerdtree-visual-selection'
+
 
 # Unimpaired
 | CMD | Action |
@@ -262,6 +316,9 @@ Opening enclosure adds whitespace
 `df[col] = df[col].str.replace(r'\d+', '', regex=True)`     string manipulation
 `re.split('\d+', s) split on regex
 Retain delimitors after split: https://stackoverflow.com/a/2136580/12555857 (wrap regex in capture group `()`)
+
+# tealdeer
+Generate default config file `~/.config/tealdeer/config.toml` with `tldr --seed-config`.
 
 
 cat > .curlrc <<EOF

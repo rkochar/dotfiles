@@ -1,18 +1,5 @@
 call plug#begin('~/.vim/plugged')
 
-Plug 'preservim/nerdtree'
-
-Plug 'Xuyuanp/nerdtree-git-plugin'
-
-Plug 'ryanoasis/vim-devicons'
-
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-
-Plug 'PhilRunninger/nerdtree-buffer-ops'
-
-Plug 'PhilRunninger/nerdtree-visual-selection'
-
-
 Plug 'ctrlpvim/ctrlp.vim'
 
 Plug 'tpope/vim-fugitive'
@@ -37,6 +24,8 @@ Plug 'itchyny/lightline.vim'
 
 Plug 'itchyny/calendar.vim'
 
+
+Plug 'preservim/vim-indent-guides'
 
 Plug 'sheerun/vim-polyglot'
 
