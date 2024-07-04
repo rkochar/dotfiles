@@ -76,10 +76,18 @@ TODO: [vim-visual-multiline](https://github.com/mg979/vim-visual-multi)
 
 | CMD | Action |
 |-----| --- |
-|`~` |  flip case of character |
-| `U` | Uppercase in visual. Undo all changes in normal |
-|`C-a` | add 1|
-|`C-x` | subtract 1|
+| `~` |  flip case of character. `g~[motion]` |
+| `u/U` | Lower/Uppercase in visual. `gu/U`. Undo one/all changes in normal |
+| `gugu` | Line is lower case |
+| `g?[motion]` | Rot13 |
+
+| CMD | Action |
+|-----| --- |
+| `C-o` | Run one command in normal mode (from insert mode) |
+| `C-a` | add 1|
+| `C-x` | subtract 1|
+| `gC-a` | `:h v_g_CTRL-A`. Order list |
+| `dC-X/A` | Change timestamp to current time (local/UTC) |
 | `gx` | Open url in browser |
 | `gd/D` | Goto local/global definition. See ctags for stronger gd |
 | `gg=G` | Goto first line, indent till G |
@@ -105,7 +113,7 @@ Most delete sequences overwrite `""`. Paste with `"0p`
 | CMD | Action |
 |-----| --- |
 | `//?` | Search forward/backward |
-| `<C-o/i>` | Go back/forward |
+| `<C-o/i>` | Go back/forward. Tracks cursor |
 | `*/#` | Next/previous occurance of word under cursor |
 | `R` | Replace mode |
 | `:s/f/r` | replace first f with r in current line |
@@ -140,7 +148,7 @@ Most delete sequences overwrite `""`. Paste with `"0p`
 
 | CMD | Action |
 |-----| --- |
-| `yiw` | copy current word |
+| `yiw` | copy current word. `viw` selects word under cursor |
 | `ciw` | cut current word and move to insert|
 | `C-r"` | paste " buffer (in insert mode)|
 | `"0p` | paste yanked buffer |
@@ -161,6 +169,7 @@ Most delete sequences overwrite `""`. Paste with `"0p`
 | `zR/M` | Open/Close all folds |
 | `zd/E` | Delete fold/all folds |
 | `zf#j` | Create fold from cursor to # lines down |
+| `zf ` | Create empty fold |
 
 | CMD | Action |
 |-----| --- |
@@ -174,6 +183,8 @@ Most delete sequences overwrite `""`. Paste with `"0p`
 | `:e#` | Previous buffer, `:b#` |
 | `tabe#` | Open last buffer in new tab |
 | `:e#n` | Go back n buffers |
+| `:sp` | Split horizontally |
+| `:vsp` | Split vertically. `<C-w>v` |
 
 # Nerdtree-V
 | CMD | Action |
@@ -280,6 +291,7 @@ Plug 'PhilRunninger/nerdtree-visual-selection'
 | <C-d> | Toggle filepath and name |
 | <C-r> | Toggle regex |
 | <C-p> | Search history. `n` is forward |
+| <C-y> | Create file/directories |
 | `:CtrlPClearCache` | Rescan fs or F5 |
 
 # Surround
@@ -290,8 +302,10 @@ Opening enclosure adds whitespace
 | `cst<2>` | When enclosure 1 is a tag |
 | `ds<1>` | Remove enclosure entirely |
 | `ysiw<1>` | Enclose word |
+| `cs4w<1>` | Enclose 4 words |
 | `yss<1>` | Wrap line |
 | `v/VS` | Visual mode enclose |
+| `ysiwffoo` | Create function foo |
 
 # bash math
 | CMD | Output | Comments |
