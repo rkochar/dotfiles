@@ -83,7 +83,6 @@ TODO: [vim-visual-multiline](https://github.com/mg979/vim-visual-multi)
 
 | CMD | Action |
 |-----| --- |
-| `C-o` | Run one command in normal mode (from insert mode) |
 | `C-a` | add 1|
 | `C-x` | subtract 1|
 | `gC-a` | `:h v_g_CTRL-A`. Order list |
@@ -91,6 +90,28 @@ TODO: [vim-visual-multiline](https://github.com/mg979/vim-visual-multi)
 | `gx` | Open url in browser |
 | `gd/D` | Goto local/global definition. See ctags for stronger gd |
 | `gg=G` | Goto first line, indent till G |
+
+Insert mode
+| CMD | Action |
+|-----| --- |
+| `C-o` | Run one command in normal mode (from insert mode) |
+| `C-w` | Delete word to left |
+| `C-h` | Backspace |
+| `C-j` | newline |
+| `C-d/t` | Un/indent |
+
+| CMD | Action |
+|-----| --- |
+| word | Delimited by configurable characters |
+| WORD | Delimited by whitespace |
+| `aw` | a word |
+| `iw` | inner word (retains whitespace or character) |
+| `as` | a sentence |
+| `ap` | a paragraph |
+| `a"` | a string |
+| `a(` | a () |
+| ` ab` | a block |
+| `a<` | a \<\> |
 
 Most delete sequences overwrite `""`. Paste with `"0p`
 | CMD | Action |
@@ -107,6 +128,12 @@ Most delete sequences overwrite `""`. Paste with `"0p`
 | `D|` | Delete till start of line |
 | `dG` | Delete till end of file |
 | `dgg` | Delete till start of file |
+| `daw` | Delete a word |
+| `das` | Delete a sentence |
+| `dap` | Delete a paragraph |
+| `dab/B` | Delete a ()/{} |
+| `da"` | Delete a string |
+| `da(` | Delete a () |
 | `ci/a<enclosure>` | Delete everything inside/including enclosure and go to insert |
 | `vi/a<enclosure>` | Select everything inside/including enclosure |
 
@@ -170,6 +197,14 @@ Most delete sequences overwrite `""`. Paste with `"0p`
 | `zd/E` | Delete fold/all folds |
 | `zf#j` | Create fold from cursor to # lines down |
 | `zf ` | Create empty fold |
+| `:AnyFoldActivate` | Activate fold |
+| `<leader>fw` | Word under cursor |
+| `<leader>ft` | Toggle |
+| `<leader>fs` | Previous search pattern |
+| `<leader>fS` | Lines containing spelling errors |
+| `<leader>fi/d` | Increase/decreases lines around context |
+| `<leader>fe` | Set modified fold values to original and end search |
+| `<leader>fp` | Foldsearch on regex |
 
 | CMD | Action |
 |-----| --- |

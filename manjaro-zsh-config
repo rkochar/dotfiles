@@ -68,6 +68,15 @@ alias gitu='git add . && git commit && git push'
 alias gitgud='git reset --hard'
 alias gitnot'sudo git reset --hard HEAD@{1}'
 
+alias gs="git status "
+alias gd="git diff "
+alias gdc="git diff --cached "
+alias gb="git branch "
+alias gc="git checkout "
+alias gcb="git checkout -b "
+alias gl="git log "
+alias glp="git log -p "
+
 alias zshrc='sudo ${CLIEDITOR} /usr/share/zsh/manjaro-zsh-config'
 alias sourcezshrc='cp /usr/share/zsh/manjaro-zsh-config ~/dotfiles/ && source /usr/share/zsh/manjaro-zsh-config'
 
@@ -264,17 +273,20 @@ help() {
 # export LS_OPTIONS='--color=auto'
 # eval "$(dircolors -b)"
 # https://github.com/ogham/exa
-# Using eza, fork of exa
-alias ls="eza --icons"
-alias lsl="eza --icons --long --git -F --oneline --time-style=long-iso --group-directories-first"
-alias lsal="eza --icons --all --long --git -F --time-style=long-iso --group-directories-first"
-alias tree="eza --tree --icons"
+# Using eza, fork of exa # eza is supposed to be better but auto-complete of path does not seem to work.
+alias ls="exa --icons"
+alias lsl="exa --icons --long --git -F --oneline --time-style=long-iso --group-directories-first"
+alias lsal="exa --icons --all --long --git -F --time-style=long-iso --group-directories-first"
+alias tree="exa --tree --icons"
 
 # Calendar
 alias cal='cal -m '
 
 # ip
 alias ip="ip -c "
+
+# Zoxide
+alias z-="z -"
 
 # PyEnv to manage multiple python versions
 export PYENV_ROOT="$HOME/.pyenv"

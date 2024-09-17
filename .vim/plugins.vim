@@ -27,6 +27,12 @@ Plug 'itchyny/calendar.vim'
 
 Plug 'preservim/vim-indent-guides'
 
+Plug 'dbmrq/vim-chalk'
+
+Plug 'pseewald/vim-anyfold'
+
+Plug 'embear/vim-foldsearch'
+
 Plug 'sheerun/vim-polyglot'
 
 Plug 'ervandew/supertab'
