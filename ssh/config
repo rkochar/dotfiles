@@ -30,3 +30,52 @@ Host *
   IdentitiesOnly yes
   PreferredAuthentications publickey
   Compression yes
+# https://markentier.tech/posts/2021/02/github-with-multiple-profiles-gpg-ssh-keys/
+
+### github
+### -- PERSONAL/MAIN ACCOUNT --
+
+Host github.com
+  User rkochar
+  Hostname github.com
+  IdentityFile ~/.ssh/id_ed25519
+  ServerAliveInterval 8400
+  ServerAliveCountMax 4
+
+### -- WORK PERSONA/ACCOUNT --
+
+#Host github.com-work
+#  Hostname github.com
+#  User <YOUR GITHUB USERNAME>
+#  IdentityFile ~/.ssh/<YOUR WORK SSH KEY>
+
+
+### Raspberry --
+# Wrecker
+Match host wrecker exec "ip -j neigh | jq '.[] | .lladdr' | grep -qE 9c:3d:cf:ca:9a:90"
+    Hostname wrecker #192.168.1.251
+    Include config.wrecker
+
+Host wrecker
+    Hostname wrecker42.duckdns.org 
+    Include config.wrecker
+
+Match host smasher exec "ip -j neigh | jq '.[] | .lladdr' | grep -qE 74:3c:18:d7:3a:e0"
+    Hostname 192.168.1.250 #192.168.1.250 #smasher.local
+    Include config.smasher
+
+Host smasher
+    Hostname smasher42.duckdns.org
+    Include config.smasher
+
+### -- DEFAULTS --
+Host *
+  AddKeysToAgent yes
+  IdentitiesOnly yes
+  PreferredAuthentications publickey
+  Compression yes
+
+
+#Host *
+  #AddKeysToAgent yes
+  #IdentityFile /home/rkochar/.ssh/keys/%r@%h

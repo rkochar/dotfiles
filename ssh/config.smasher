@@ -1,0 +1,3 @@
+User smasherpi
+IdentityFile ~/.ssh/smasherpi_id_rsa
+ConnectTimeout 10

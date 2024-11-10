@@ -1,0 +1,3 @@
+User wreckerpi
+IdentityFile ~/.ssh/wreckerpi_id_rsa
+ConnectTimeout 10

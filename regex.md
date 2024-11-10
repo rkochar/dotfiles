@@ -158,6 +158,7 @@ Most delete sequences overwrite `""`. Paste with `"0p`
 | `:5,20s/^#//` | Delete `#` (uncomment) |
 | `:%s/apple\|orange\|mango/fruit/g` | replace all 3 with fruit |
 | `:%s/\s\+$//e` | remove trailing whitespace at end all lines |
+| `%Subvert/facilit{y,ies}/building{,s}/g` | Substitute `:S` |
 
 | CMD | Action |
 |-----| --- |
@@ -341,6 +342,16 @@ Opening enclosure adds whitespace
 | `yss<1>` | Wrap line |
 | `v/VS` | Visual mode enclose |
 | `ysiwffoo` | Create function foo |
+
+# Abolish - Coercion
+| CMD | Action |
+|-----|--------|
+| `crs` | snake_case |
+| `crm` | MixedCase |
+| `crc` | camelCase |
+| `cru` | UPPER_CASE |
+| `cr-` | dash-case |
+| `cr.` | dot.case |
 
 # bash math
 | CMD | Output | Comments |
