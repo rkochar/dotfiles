@@ -82,6 +82,7 @@ alias sourcezshrc='cp /usr/share/zsh/manjaro-zsh-config ~/dotfiles/ && source /u
 
 alias kittyconf="vim ~/.config/kitty/kitty.conf"
 alias icat="kitten icat "
+alias ssh="kitten ssh "
 
 alias p10kconf="vim ~/.p10k.zsh"
 
@@ -105,6 +106,15 @@ alias nsall="--all-namespaces"
 alias kcuse="kubectl config use-context"
 alias kaf="kubectl apply -f"
 alias kdf="kubectl delete -f"
+
+# Kitty shell integration
+# https://sw.kovidgoyal.net/kitty/shell-integration/#manual-shell-integration
+if test -n "$KITTY_INSTALLATION_DIR"; then
+    export KITTY_SHELL_INTEGRATION="enabled"
+    autoload -Uz -- "$KITTY_INSTALLATION_DIR"/shell-integration/zsh/kitty-integration
+    kitty-integration
+    unfunction kitty-integration
+fi
 
 # Change history file
 # https://stackoverflow.com/questions/70787524/how-can-i-point-the-history-command-to-an-alternate-file
@@ -132,6 +142,8 @@ export LESS=-R
 
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
+export GOBIN=$GOPATH/bin
+export PATH=$PATH:$GOBIN/bin
 
 ## Plugins section: Enable fish style features
 # Use syntax highlighting
@@ -269,14 +281,25 @@ help() {
     "$@" --help 2>&1 | bathelp
 }
 
+alias dud="du -hd1 "
+alias hgrep="fc -El 0 | grep "
+alias ff="find . -type f -name "
+alias p='ps -f '
+alias sortnr='sort -nr '
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
 # File and Dir colors for ls and other outputs
 # export LS_OPTIONS='--color=auto'
 # eval "$(dircolors -b)"
 # https://github.com/ogham/exa
 # Using eza, fork of exa # eza is supposed to be better but auto-complete of path does not seem to work.
-alias ls="exa --icons"
-alias lsl="exa --icons --long --git -F --oneline --time-style=long-iso --group-directories-first"
-alias lsal="exa --icons --all --long --git -F --time-style=long-iso --group-directories-first"
+alias ls="exa --icons -F "
+alias lsl="exa --icons --long --git -Fh --oneline --time-style=long-iso --group-directories-first "
+alias lsal="exa --icons --almost-all --long --git -Fh --time-style=long-iso --group-directories-first "
+alias lr="exa --icons -F --git --oneline --time-style=long-iso -tRh "
 alias tree="exa --tree --icons"
 
 # Calendar
@@ -286,13 +309,21 @@ alias cal='cal -m '
 alias ip="ip -c "
 
 # Zoxide
-alias z-="z -"
+alias z-="z - "
+alias cd-="cd - "
+alias cd~="cd ${HOME} "
 
 # PyEnv to manage multiple python versions
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
+export FZF_DEFAULT_COMMAND='fd --type file'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_DEFAULT_COMMAND="fd --type file --follow --hidden --color=always --exclude .git"
+export FZF_DEFAULT_OPTS="--ansi"
+
+alias f="fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'"
 # fz -d will run fzf in a directory
 fz() {
     ALL_ARGS=("$@")
@@ -307,6 +338,9 @@ fz() {
         fzf $ALL_ARGS
     fi
 }
+
+# Make zsh know about hosts already accessed by SSH
+zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
 
 # Zoxide
 eval "$(zoxide init zsh)"

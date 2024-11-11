@@ -18,13 +18,14 @@ filetype plugin indent on
 " set smartindent
 " }}}
 
+" leader {{{
 let mapleader = "\\"
 let maplocalleader = ","
+"}}}
 
 " Security
+" TODO: What does this do?
 set modelines=0
-" Upper case in insert mode
-inoremap <c-u> <esc>veUi
 
 " Whitespace, tab, and line length {{{
 set wrap
@@ -107,6 +108,19 @@ set ttyfast
 
 " Allow hidden buffers
 set hidden
+
+noremap <leader>t :sp term://zsh<CR>
+"noremap <leader>t call OpenTerminal()<CR>
+
+" Function to check for nvim
+function! OpenTerminal()
+    command echom "here"
+    if has('nvim')
+        command Terminal vsplit term://zsh
+    else
+        command Terminal vert term
+    endif
+endfunction
 " }}}
 
 " Remap help key.
@@ -123,8 +137,12 @@ nnoremap <leader>i gg=G
 " Encoding
 set encoding=utf-8
 
+" Upper case in insert mode
+inoremap <c-u> <esc>veUi
+
 " https://github.com/preservim/vim-indent-guides?tab=readme-ov-file#usage
-let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_enable_on_vim_startup = 0
+noremap <leader>it :IndentGuidesToggle<CR>
 
 " Folding https://learnvimscriptthehardway.stevelosh.com/chapters/18.html
 " use za with {{{ and }}} to fold
@@ -132,17 +150,34 @@ augroup filetype_vim
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
 augroup END
+
+" https://github.com/arecarn/vim-fold-cycle
+" Won't close when max fold is opened
+let g:fold_cycle_toggle_max_open  = 0
+" Won't open when max fold is closed
+let g:fold_cycle_toggle_max_close = 0
+
+" https://github.com/pseewald/vim-anyfold
+" disable anyfold for large files
+let g:LargeFile = 1000000 " file is large if size greater than 1MB
+autocmd BufReadPre,BufRead * let f=getfsize(expand("<afile>")) | if f > g:LargeFile || f == -2 | call LargeFile() | endif
+function LargeFile()
+    augroup anyfold
+        autocmd! " remove AnyFoldActivate
+        autocmd Filetype <filetype> setlocal foldmethod=indent " fall back to indent folding
+    augroup END
+endfunction
 " }}}
 
 " Save file and quit vim {{{
 cnoreabbrev W w
 nnoremap <leader>q :q<CR>
-nnoremap <leader>wq :wq<CR>
-inoremap <leader>wq <esc>:wq<CR>
 nnoremap <leader>qa :qa<CR>
 nnoremap <leader>wa :wa<CR>
 nnoremap <leader>x :x<CR>
+nnoremap <leader>xa :xa<CR>
 inoremap <leader>x <esc>:x<CR>
+inoremap <leader>xa <esc>:xa<CR>
 noremap <leader>w <esc>:w<CR>
 inoremap <leader>w <esc>:w<CR>
 nnoremap <leader>z <c-z>
@@ -151,11 +186,16 @@ noremap <leader>z <esc><c-z>
 inoremap jk <esc>
 inoremap kj <esc>:x<cr>
 inoremap <esc> <nop>
+
+set noswapfile
 " }}}
 
 " Copy and paste {{{
 " paste https://stackoverflow.com/a/2514520/12555857
 set pastetoggle=<leader>p
+
+nnoremap <leader>c :set clipboard+=unnamedplus
+
 " Paste at cursor and move cursor to end of pasted text https://unix.stackexchange.com/a/5061/570671
 noremap p gP
 " Ctrl+d to delete line in insert mode
@@ -187,38 +227,63 @@ unlet VIMRC
 nnoremap <leader>en :vsplit ~/dotfiles/regex.md<cr>
 nnoremap <leader>exn :split ~/dotfiles/regex.md<cr>
 nnoremap <leader>sn :source ~/dotfiles/regex.md<cr>:q<cr>
+" }}}{{{}}}
+
+" rust {{{
+let g:rustfmt_autosave = 1
+
+inoremap <leader>? {:?}
+inoremap <leader>(' ('')<ESC>F'i
+inoremap <leader>(" ("")<ESC>F"i
+inoremap <leader>b" !("");<ESC>F"i
+inoremap {<CR> {<CR>}<C--o>O
+
+" zsh syntax highlighting. TODO: Find it a place to live.
+autocmd BufNewFile,BufRead manjaro-zsh-config set syntax=zsh
+
+nnoremap <silent> <leader>e <cmd>lua vim.diagnostic.open_float()<CR>
+
+augroup rust
+    autocmd!
+    autocmd FileType rust nnoremap <buffer> <leader>rf :RustFmt<CR>
+augroup END
 " }}}
+
+" Surround {{{
+let g:surround_insert_space_left = 0
+let g:surround_insert_space_right = 1
+"}}}
 
 " Nerdtree {{{
-" https://github.com/preservim/nerdtree
-nnoremap <leader>n :NERDTreeFocus<CR>
-augroup NERDTree
-    autocmd!
-
-    " Exit Vim if NERDTree is the only window remaining in the only tab.
-    autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-    " Close the tab if NERDTree is the only window remaining in it.
-    autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-    " If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
-    autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 | let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
-augroup END
-
-" Show hidden files
-let NERDTreeShowHidden=1
-
-" https://github.com/Xuyuanp/nerdtree-git-plugin
-let g:NERDTreeGitStatusUseNerdFonts = 0 " default: 0 (false) " TODO: nerdfont not installed (correctly)
-let g:NERDTreeGitStatusShowClean = 1 " default: 0
-let g:NERDTreeGitStatusConcealBrackets = 1 " default: 0
-
-" https://github.com/tiagofumo/vim-nerdtree-syntax-highlight
-let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
-let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
-let g:NERDTreeLimitedSyntax = 1
-
-" https://github.com/PhilRunninger/nerdtree-visual-selection#configuration
-let g:nerdtree_vis_jumpmark = 'p' " default: 'n'
-" }}}
+" " https://github.com/preservim/nerdtree
+" nnoremap <leader>n :NERDTreeFocus<CR>
+" augroup NERDTree
+"     autocmd!
+" 
+"     " Exit Vim if NERDTree is the only window remaining in the only tab.
+"     autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+"     " Close the tab if NERDTree is the only window remaining in it.
+"     autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+"     " If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
+"     autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 | let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+" augroup END
+" 
+" " Show hidden files
+" let NERDTreeShowHidden=1
+" 
+" " https://github.com/Xuyuanp/nerdtree-git-plugin
+" let g:NERDTreeGitStatusUseNerdFonts = 0 " default: 0 (false) " TODO: nerdfont not installed (correctly)
+" let g:NERDTreeGitStatusShowClean = 1 " default: 0
+" let g:NERDTreeGitStatusConcealBrackets = 1 " default: 0
+" 
+" " https://github.com/tiagofumo/vim-nerdtree-syntax-highlight
+" let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
+" let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
+" let g:NERDTreeLimitedSyntax = 1
+" 
+" " https://github.com/PhilRunninger/nerdtree-visual-selection#configuration
+" let g:nerdtree_vis_jumpmark = 'p' " default: 'n'
+" " }}}
 
 " Fugitive {{{
 augroup fugitive
@@ -246,6 +311,10 @@ set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_map = '<C-p>'
 let g:ctrlp_cmd = 'CtrlPRoot'
+let g:ctrlp_open_new_file = 'h'
+let g:ctrlp_working_path_mode = 'ra'
+
+nnoremap <leader>cp :CtrlPClearCache<CR>
 
 " https://github.com/kien/ctrlp.vim/issues/650#issuecomment-101752106
 "let g:ctrlp_prompt_mappings = { 
