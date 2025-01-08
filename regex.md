@@ -38,6 +38,7 @@ TODO: [vim-visual-multiline](https://github.com/mg979/vim-visual-multi)
 | `.` | repeat action|
 | `;` | repeat f, t forward. `,` repeats backwards |
 | `&` | repeat last `:s`. `g&` remembers flag
+| `:g/^$/d` | Delete every line that matches empty regex |
 | `C-Z` | Suspend vim and return to terminal. `fg` | 
 | `C-d` | Auto-complete command on `:` |
 | `C-f` | Search history |
@@ -100,6 +101,21 @@ Insert mode
 | `C-j` | newline |
 | `C-d/t` | Un/indent |
 
+Wincmd
+| CMD | Action |
+|-----| --- |
+| `n C-w C-w` | Move to nth window. Topleft to bottomright |
+| `C-w s/v` | Split horizontally/vertically |
+| `C-w c/o` | Close/Other windows |
+| `C-w =` | Equalize windows |
+| `C-w nx` | Swap with nth windows, without cursor |
+| `C-w w/W` | Move to next/previous window |
+| `C-w R` | Rotate windows (down, right) |
+| `C-w r` | Rotate windows (up, left) |
+| `C-w H/J/K/L` | Move window to far left, down, up, right (can expand to full length) |
+| `C-w h/j/k/l` | Move focus to window to left, down, up, right |
+| `C-w h/j/k/l` | # TODO: Move window to left, down, up, right |
+
 | CMD | Action |
 |-----| --- |
 | word | Delimited by configurable characters |
@@ -116,6 +132,7 @@ Insert mode
 Most delete sequences overwrite `""`. Paste with `"0p`
 | CMD | Action |
 |-----| --- |
+| `dt/f<char>` | Delete till/including next char. T/F is backwards |
 | `d0` | Delete till start of line |
 | `dw` | Delete word till next delimiter |
 | `dW` | Delete till next whitespace |
@@ -125,7 +142,7 @@ Most delete sequences overwrite `""`. Paste with `"0p`
 | `S` | Delete whole line and insert mode. `cc` |
 | `D` | Delete till end of line. `d$` |
 | `C` | Change till end of line. `c$` |
-| `D|` | Delete till start of line |
+| `d|` | Delete till start of line |
 | `dG` | Delete till end of file |
 | `dgg` | Delete till start of file |
 | `daw` | Delete a word |
@@ -134,6 +151,9 @@ Most delete sequences overwrite `""`. Paste with `"0p`
 | `dab/B` | Delete a ()/{} |
 | `da"` | Delete a string |
 | `da(` | Delete a () |
+| `dVa(` | Delete full block |
+| `dva(` | Delete inside () |
+| `dab` | Delete a block |
 | `ci/a<enclosure>` | Delete everything inside/including enclosure and go to insert |
 | `vi/a<enclosure>` | Select everything inside/including enclosure |
 

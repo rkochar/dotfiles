@@ -2,6 +2,9 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'ctrlpvim/ctrlp.vim'
 
+Plug 'tomtom/tcomment_vim'
+
+
 Plug 'tpope/vim-fugitive'
 
 Plug 'idanarye/vim-merginal'
@@ -20,7 +23,7 @@ Plug 'rkochar/vim-surround'
 Plug 'tpope/vim-abolish'
 
 
-Plug 'itchyny/vim-cursorword'
+Plug 'osyo-manga/vim-brightest'
 
 Plug 'itchyny/lightline.vim'
 
@@ -40,7 +43,10 @@ Plug 'embear/vim-foldsearch'
 Plug 'arecarn/vim-fold-cycle'
 
 
-Plug 'sheerun/vim-polyglot'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+Plug 'pappasam/papercolor-theme-slim'
+
 
 Plug 'ervandew/supertab'
 

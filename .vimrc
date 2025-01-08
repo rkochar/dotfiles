@@ -10,11 +10,12 @@ filetype off
 so ~/.vim/plugins.vim
 
 " Turn on syntax highlighting
-syntax on
+" syntax on
 set re=0 " https://github.com/prabirshrestha/vim-lsp/issues/786#issuecomment-1333947331
 
 " For plugins to load correctly
 filetype plugin indent on
+" TODO: Needed?
 " set smartindent
 " }}}
 
@@ -112,6 +113,12 @@ set hidden
 noremap <leader>t :sp term://zsh<CR>
 "noremap <leader>t call OpenTerminal()<CR>
 
+" stackoverflow.com/a/6053341
+nnoremap <silent> <c-k> :wincmd k<CR>
+nnoremap <silent> <c-j> :wincmd j<CR>
+nnoremap <silent> <c-h> :wincmd h<CR>
+nnoremap <silent> <c-l> :wincmd l<CR>
+
 " Function to check for nvim
 function! OpenTerminal()
     command echom "here"
@@ -157,6 +164,8 @@ let g:fold_cycle_toggle_max_open  = 0
 " Won't open when max fold is closed
 let g:fold_cycle_toggle_max_close = 0
 
+set foldopen=block,hor,mark,percent,search,tag,undo,jump
+
 " https://github.com/pseewald/vim-anyfold
 " disable anyfold for large files
 let g:LargeFile = 1000000 " file is large if size greater than 1MB
@@ -201,16 +210,17 @@ noremap p gP
 " Ctrl+d to delete line in insert mode
 inoremap <c-d> <esc>ddi
 
-" in parenthesis https://learnvimscriptthehardway.stevelosh.com/chapters/15.html
-" p is mapped to toggle paste
-" onoremap p i(
-
-" Set paste on entering visual mode
-"augroup VisualEvent
-"    autocmd!
-"    autocmd ModeChanged *:[vV\x16]* 
-"    autocmd ModeChanged [vV\x16]*:* 
-"augroup END
+" " TODO: Recheck this code block
+" " in parenthesis https://learnvimscriptthehardway.stevelosh.com/chapters/15.html
+" " p is mapped to toggle paste
+" " onoremap p i(
+" 
+" " Set paste on entering visual mode
+" "augroup VisualEvent
+" "    autocmd!
+" "    autocmd ModeChanged *:[vV\x16]* 
+" "    autocmd ModeChanged [vV\x16]*:* 
+" "augroup END
 " }}}
 
 " dotfiles {{{
@@ -234,9 +244,13 @@ let g:rustfmt_autosave = 1
 
 inoremap <leader>? {:?}
 inoremap <leader>(' ('')<ESC>F'i
+inoremap <leader>{' {''}<ESC>F'i
 inoremap <leader>(" ("")<ESC>F"i
+inoremap <leader>{" {""}<ESC>F"i
 inoremap <leader>b" !("");<ESC>F"i
-inoremap {<CR> {<CR>}<C--o>O
+inoremap {<CR> {<CR>}<C-o>O
+inoremap (<CR> (<CR>)<C-o>O
+inoremap [<CR> [<CR>]<C-o>O
 
 " zsh syntax highlighting. TODO: Find it a place to live.
 autocmd BufNewFile,BufRead manjaro-zsh-config set syntax=zsh
@@ -256,33 +270,33 @@ let g:surround_insert_space_right = 1
 
 " Nerdtree {{{
 " " https://github.com/preservim/nerdtree
-" nnoremap <leader>n :NERDTreeFocus<CR>
-" augroup NERDTree
-"     autocmd!
-" 
-"     " Exit Vim if NERDTree is the only window remaining in the only tab.
-"     autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-"     " Close the tab if NERDTree is the only window remaining in it.
-"     autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-"     " If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
-"     autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 | let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
-" augroup END
-" 
-" " Show hidden files
-" let NERDTreeShowHidden=1
-" 
-" " https://github.com/Xuyuanp/nerdtree-git-plugin
-" let g:NERDTreeGitStatusUseNerdFonts = 0 " default: 0 (false) " TODO: nerdfont not installed (correctly)
-" let g:NERDTreeGitStatusShowClean = 1 " default: 0
-" let g:NERDTreeGitStatusConcealBrackets = 1 " default: 0
-" 
-" " https://github.com/tiagofumo/vim-nerdtree-syntax-highlight
-" let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
-" let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
-" let g:NERDTreeLimitedSyntax = 1
-" 
-" " https://github.com/PhilRunninger/nerdtree-visual-selection#configuration
-" let g:nerdtree_vis_jumpmark = 'p' " default: 'n'
+nnoremap <leader>n :NERDTreeFocus<CR>
+augroup NERDTree
+    autocmd!
+
+    " Exit Vim if NERDTree is the only window remaining in the only tab.
+    autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+    " Close the tab if NERDTree is the only window remaining in it.
+    autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+    " If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
+    autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 | let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+augroup END
+
+" Show hidden files
+let NERDTreeShowHidden=1
+
+" https://github.com/Xuyuanp/nerdtree-git-plugin
+let g:NERDTreeGitStatusUseNerdFonts = 0 " default: 0 (false) " TODO: nerdfont not installed (correctly)
+let g:NERDTreeGitStatusShowClean = 1 " default: 0
+let g:NERDTreeGitStatusConcealBrackets = 1 " default: 0
+
+" https://github.com/tiagofumo/vim-nerdtree-syntax-highlight
+let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
+let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
+let g:NERDTreeLimitedSyntax = 1
+
+" https://github.com/PhilRunninger/nerdtree-visual-selection#configuration
+let g:nerdtree_vis_jumpmark = 'p' " default: 'n'
 " " }}}
 
 " Fugitive {{{
@@ -337,23 +351,41 @@ source ~/.cache/calendar.vim/credentials.vim
 " marks: https://github.com/itchyny/calendar.vim/blob/master/doc/calendar.txt#L767
 " }}}
 
+" Treesitter syntax highlight {{{
+lua << EOF
+require'nvim-treesitter.configs'.setup {
+    ensure_installed = { "rust", "go", "python", "bash", "markdown", "vim", "lua", "json", "yaml", "dockerfile", "regex" },
+    sync_install = false,
+    auto_install = true,
+    highlight = {
+        enable = true,
+        disable = function(lang, buf)
+        local max_filesize = 100 * 1024 -- 100 KB
+        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+        if ok and stats and stats.size > max_filesize then
+            return true
+        end
+    end,
+    additional_vim_regex_highlighting = false,
+    indent = {
+        enable = true
+        },
+    },
+}
+EOF
+" }}}
+
 " Color scheme (terminal/vim) {{{
-" set t_Co=256
 set background=dark
-set termguicolors
+" colorscheme PaperColor
+colorscheme PaperColorSlim
 
-" let g:solarized_termcolors=256
-" let g:solarized_termtrans=1
-" put https://raw.github.com/altercation/vim-colors-solarized/master/colors/solarized.vim
-" in ~/.vim/colors/ and uncomment:
-" colorscheme solarized
 
-" Vim color from https://github.com/branwright1/salvation-vim
-" colorscheme salvation
-colorscheme PaperColor
+let g:brightest#highlight = {
+\   "group" : "BrightestUnderline"
+\}
 
 " CURSOR
-
 " Use a line cursor within insert mode and a block cursor everywhere else.
 "
 " Reference chart of values:
@@ -366,7 +398,7 @@ colorscheme PaperColor
 "   Ps = 6  -> steady bar (xterm).
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[5 q"
-" }}}
+" " }}}
 
 " Lightline {{{
 let g:lightline = {

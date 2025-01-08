@@ -297,8 +297,8 @@ alias mv='mv -i'
 # https://github.com/ogham/exa
 # Using eza, fork of exa # eza is supposed to be better but auto-complete of path does not seem to work.
 alias ls="exa --icons -F "
-alias lsl="exa --icons --long --git -Fh --oneline --time-style=long-iso --group-directories-first "
-alias lsal="exa --icons --almost-all --long --git -Fh --time-style=long-iso --group-directories-first "
+alias lsl="exa --icons -F --long --git -h --oneline --time-style=long-iso --group-directories-first "
+alias lsal="exa --icons -F --almost-all --long --git -h --time-style=long-iso --group-directories-first "
 alias lr="exa --icons -F --git --oneline --time-style=long-iso -tRh "
 alias tree="exa --tree --icons"
 
@@ -318,9 +318,8 @@ export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
-export FZF_DEFAULT_COMMAND='fd --type file'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_COMMAND="fd --type file --follow --hidden --color=always --exclude .git"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_OPTS="--ansi"
 
 alias f="fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'"
