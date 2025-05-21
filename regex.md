@@ -22,6 +22,10 @@
 | gendates | `function gendates { for dd in $(seq -w $1 $2) ; do date -d $dd +%Y%m%d 2>/dev/null ; done  ; }` log files to check | |
 | du -d 1 -h | folder size | |
 | youtube-dl -x --audio-format m4a --postprocessor-args "-ss 00:00:02.00 -t 00:09:27.00" https://www.youtube.com/watch?v=AETFvQonfV8 | download audio from youtube | |
+| git log -L 5,15:<file> | |
+| git blame <file> -L 5,15 | |
+| git blame <file> -L :'string' | |
+| git blame -C | follow code movement in commit. In multiple or all commits |
 
 # TODO
 [Space Age seD - batch edit](https://github.com/ms-jpq/sad)
@@ -198,6 +202,7 @@ Most delete sequences overwrite `""`. Paste with `"0p`
 |-----| --- |
 | `yiw` | copy current word. `viw` selects word under cursor |
 | `ciw` | cut current word and move to insert|
+| `"ay{motion}` | yank to `a` |
 | `C-r"` | paste " buffer (in insert mode)|
 | `"0p` | paste yanked buffer |
 | `"*y` | Copy to clipboard, `"*p` |

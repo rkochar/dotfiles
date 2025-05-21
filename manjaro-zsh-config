@@ -145,6 +145,8 @@ export PATH=$PATH:$GOPATH/bin
 export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOBIN/bin
 
+export PATH=$PATH:/home/rkochar/.cargo/bin
+
 ## Plugins section: Enable fish style features
 # Use syntax highlighting
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -331,10 +333,10 @@ fz() {
     REST_ARGS=("${ALL_ARGS[@]:2}")
 
     if [[ $FIRST_ARG == "-d" ]]; then
-        cd $SECOND_ARG && fzf $REST_ARGS
+        cd $SECOND_ARG && fzf $REST_ARGS --preview 'bat -n --color=always {}'
         cd - > /dev/null
     else
-        fzf $ALL_ARGS
+        fzf $ALL_ARGS --preview 'bat -n --color=always {}'
     fi
 }
 
