@@ -72,11 +72,72 @@ alias gs="git status "
 alias gd="git diff "
 alias gdc="git diff --cached "
 alias gb="git branch "
-alias gc="git checkout "
+alias gc-='git checkout -'
 alias gcb="git checkout -b "
 alias gl="git log "
 alias glp="git log -p "
 
+# ### fzf git
+# https://oliviac.dev/blog/build-git-helpers-bash-fzf/
+function ensure_git_repo() {
+    if ! git rev-parse --is-inside-work-tree &>/dev/null; then
+        echo "Error: Not inside a Git repository"
+        return 1
+    fi
+}
+
+# alias gc="git checkout "
+# alias gc='git branch | fzf | cut -c 3- | xargs git switch'
+function gc() {
+	ensure_git_repo || return 1
+
+	local line branch
+	line=$(git --no-pager branch -vv | fzf)
+	branch=$(echo "$line" | sed -E 's/^[* ]+([^ ]+).*/\1/')
+	git switch "$branch"
+}
+
+function gbd() {
+	ensure_git_repo || return 1
+
+  local line branch
+	line=$(git --no-pager branch -vv | fzf)
+	branch=$(echo "$line" | sed -E 's/^[* ]+([^ ]+).*/\1/')
+
+	# show the user what command it is about to run
+	# https://superuser.com/a/556006
+	echo "git branch -D $branch"
+	read "RESPONSE?Are you sure you want to delete this branch? [y|n]"
+	echo ""
+
+	if [[ $RESPONSE =~ ^[Yy]$ ]]; then
+		git branch -D "$branch"
+	else
+	  echo "Branch deletion aborted"
+  fi
+}
+
+function gri() {
+	ensure_git_repo || return 1
+
+	local line commit
+	line=$(git log --color=always --pretty=oneline --abbrev-commit | fzf --ansi)
+
+	if [[ -z "$line" ]]; then
+		return
+	fi
+
+	commit=$(echo "$line" | sed -E "s/^([^ ]+).*/\1/")
+	git rebase "$commit"
+}
+
+#
+# zsh bind <c-G> to interupt/quit
+bindkey -r '^G'
+# git <c-g>?
+source ~/Library/fzf-git/fzf-git.sh
+
+### zsh
 alias zshrc='sudo ${CLIEDITOR} /usr/share/zsh/manjaro-zsh-config'
 alias sourcezshrc='cp /usr/share/zsh/manjaro-zsh-config ~/dotfiles/ && source /usr/share/zsh/manjaro-zsh-config'
 
@@ -287,6 +348,7 @@ alias dud="du -hd1 "
 alias hgrep="fc -El 0 | grep "
 alias ff="find . -type f -name "
 alias p='ps -f '
+alias psf='ps -ef | sed 1d | fzf'  # | awk '{print $2}' | xargs kill
 alias sortnr='sort -nr '
 
 alias rm='rm -i'
@@ -320,13 +382,35 @@ export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
+# fzf https://junegunn.github.io/fzf/shell-integration/
+# <c-t> file
+# <c-r> history
+# <alt-c> dir
+source <(fzf --zsh)
+
+export FZF_CTRL_R_OPTS="
+  --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+  --color header:italic
+  --header 'Press CTRL-Y to copy command into clipboard'"
+
+export FZF_CTRL_T_OPTS="
+  --walker-skip .git,node_modules,target
+  --preview 'bat -n --color=always {}'
+  --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+
+export FZF_ALT_C_OPTS="
+  --walker-skip .git,node_modules,target
+  --preview 'tree -C {}'"
+
 export FZF_DEFAULT_COMMAND="fd --type file --follow --hidden --color=always --exclude .git"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_OPTS="--ansi"
 
-alias f="fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'"
+alias hf='--help | fzf'
+alias f='| fzf'
+alias fz="fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'"
 # fz -d will run fzf in a directory
-fz() {
+fzd() {
     ALL_ARGS=("$@")
     FIRST_ARG="$1"
     SECOND_ARG="$2"
@@ -345,3 +429,12 @@ zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f
 
 # Zoxide
 eval "$(zoxide init zsh)"
+
+zi() {
+  local dir=$(
+    zoxide query --list --score |
+    fzf --height 40% --layout reverse --info inline \
+        --nth 2.. --tac --no-sort --query "$*" \
+        --bind 'enter:become:echo {2..}'
+  ) && cd "$dir"
+}
