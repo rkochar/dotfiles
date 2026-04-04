@@ -17,3 +17,8 @@ Host smasher
     Hostname smasher.local #42.duckdns.org #smasher.local
     IdentityFile ~/.ssh/smasherpi_id_rsa
 ```
+ 
+# scp
+```
+scp -i ~/.ssh/smasherpi_id_rsa ~/Downloads/*.conf <user>@<ip-address>:<path in pi>
+```
