@@ -22,3 +22,10 @@ Host smasher
 ```
 scp -i ~/.ssh/smasherpi_id_rsa ~/Downloads/*.conf <user>@<ip-address>:<path in pi>
 ```
+
+# vpn
+[nmcli wireguard](https://neilzone.co.uk/2025/12/bringing-up-a-wireguard-tunnel-automatically-on-boot-using-nmcli/)
+```bash
+nmcli connection show
+nmcli connection modify NAME connection.autoconnect yes
+```
